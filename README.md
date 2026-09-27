@@ -4,6 +4,15 @@ A full-stack **MERN job portal** where recruiters post jobs and manage applicant
 
 Built with **MongoDB, Express, React and Node.js**, with JWT authentication, role-based access control, private resume storage in MongoDB GridFS, and a responsive UI written in plain CSS.
 
+## Live Demo
+
+| | URL |
+|---|---|
+| Frontend (Vercel) | https://job-portal-zeta-indol.vercel.app |
+| Backend API (Render) | https://job-portal-gyt9.onrender.com ([health check](https://job-portal-gyt9.onrender.com/api/health)) |
+
+> **Note:** The backend runs on Render's free plan, which sleeps after about 15 minutes without traffic. The first request after that can take **up to a minute** while it wakes up; after that the app responds normally.
+
 ---
 
 ## Table of Contents
