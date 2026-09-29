@@ -21,7 +21,8 @@ export default function AuthProvider({ children }) {
     authService
       .getMe()
       .then(({ user }) => active && setUser(user))
-      .catch(() => active && clearToken())
+      // Only a 401 means the token is invalid; keep it if the server was just unreachable
+      .catch((error) => active && error.status === 401 && clearToken())
       .finally(() => active && setInitializing(false))
     return () => {
       active = false

@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from './Navbar'
+import ServerWakeBanner from './ServerWakeBanner'
 
 export default function Layout() {
   // One-time messages passed via navigate(..., { state: { notice } })
@@ -9,6 +10,7 @@ export default function Layout() {
     <>
       <Navbar />
       <main className="container page">
+        <ServerWakeBanner />
         {notice && (
           <div className="alert alert-info" role="status">
             {notice}
