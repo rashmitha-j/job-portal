@@ -385,6 +385,16 @@ textarea {
   color: var(--color-info-text);
 }
 
+.wake-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wake-banner .spinner {
+  flex-shrink: 0;
+}
+
 .status {
   display: flex;
   flex-direction: column;

@@ -11,7 +11,7 @@ Built with **MongoDB, Express, React and Node.js**, with JWT authentication, rol
 | Frontend (Vercel) | https://job-portal-zeta-indol.vercel.app |
 | Backend API (Render) | https://job-portal-gyt9.onrender.com ([health check](https://job-portal-gyt9.onrender.com/api/health)) |
 
-> **Note:** The backend runs on Render's free plan, which sleeps after about 15 minutes without traffic. The first request after that can take **up to a minute** while it wakes up; after that the app responds normally.
+> **Note:** The backend runs on Render's free plan, which sleeps after about 15 minutes without traffic. The first request after that can take **up to 2 minutes** while it wakes up. The app shows a "Waking up the server" message and retries automatically; after that it responds normally.
 
 ---
 
@@ -366,7 +366,7 @@ Environment variables:
 | `RESUME_STORAGE` | `gridfs` |
 | `PORT` | **Do not set**; Render provides it |
 
-Node 20.19+ is selected automatically from `engines` in `backend/package.json`. On the free tier the service sleeps when idle, so the first request after a pause can take up to a minute.
+Node 20.19+ is selected automatically from `engines` in `backend/package.json`. On the free tier the service sleeps when idle, so the first request after a pause can take up to 2 minutes.
 
 ### 3. Frontend on Vercel
 
