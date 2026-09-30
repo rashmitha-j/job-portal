@@ -5,7 +5,8 @@ import * as companyService from '../../api/companyService'
 import useFetch from '../../hooks/useFetch'
 import Pagination from '../../components/Pagination'
 import { EmptyState, ErrorMessage, Loader } from '../../components/StatusMessage'
-import { JOB_TYPE_LABELS, WORK_MODE_LABELS } from '../../constants/jobOptions'
+import CompanyAvatar from '../../components/CompanyAvatar'
+import JobBadges from '../../components/JobBadges'
 import { formatDate, formatSalary } from '../../utils/format'
 
 const PAGE_SIZE = 10
@@ -102,15 +103,18 @@ export default function RecruiterJobsPage() {
             <ul className="recruiter-job-list">
               {data.jobs.map((job) => (
                 <li key={job._id} className="card recruiter-job">
-                  <div className="recruiter-job-info">
-                    <Link to={`/jobs/${job._id}`} className="recruiter-job-title">
-                      {job.title}
-                    </Link>
-                    <p className="muted">
-                      {job.location} · {WORK_MODE_LABELS[job.workMode]} · {JOB_TYPE_LABELS[job.jobType]} ·{' '}
-                      {formatSalary(job.salary)}
-                    </p>
-                    <p className="muted small">Posted {formatDate(job.createdAt)}</p>
+                  <div className="recruiter-job-main">
+                    <CompanyAvatar name={job.company?.name || job.title} />
+                    <div className="recruiter-job-info">
+                      <Link to={`/jobs/${job._id}`} className="recruiter-job-title">
+                        {job.title}
+                      </Link>
+                      <JobBadges workMode={job.workMode} jobType={job.jobType} />
+                      <p className="muted">
+                        {job.location} · <strong className="text-strong">{formatSalary(job.salary)}</strong>
+                      </p>
+                      <p className="muted small">Posted {formatDate(job.createdAt)}</p>
+                    </div>
                   </div>
                   <div className="recruiter-job-actions">
                     <Link to={`/recruiter/jobs/${job._id}/applicants`} className="btn btn-primary btn-sm">

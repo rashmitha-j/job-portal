@@ -5,7 +5,8 @@ import useAuth from '../hooks/useAuth'
 import useFetch from '../hooks/useFetch'
 import { EmptyState, ErrorMessage, Loader } from '../components/StatusMessage'
 import CandidateJobActions from '../components/CandidateJobActions'
-import { JOB_TYPE_LABELS, WORK_MODE_LABELS } from '../constants/jobOptions'
+import CompanyAvatar from '../components/CompanyAvatar'
+import JobBadges from '../components/JobBadges'
 import { formatDate, formatExperience, formatSalary } from '../utils/format'
 
 export default function JobDetailsPage() {
@@ -60,9 +61,15 @@ export default function JobDetailsPage() {
 
       <div className="details-layout">
         <div className="details-main">
-          <header className="card">
-            <h1>{job.title}</h1>
-            <p className="job-card-company">{company?.name}</p>
+          <header className="card details-header">
+            <div className="details-title-row">
+              <CompanyAvatar name={company?.name || job.title} size="lg" />
+              <div className="details-title">
+                <h1>{job.title}</h1>
+                <p className="job-card-company">{company?.name}</p>
+              </div>
+            </div>
+            <JobBadges workMode={job.workMode} jobType={job.jobType} />
 
             <dl className="details-facts">
               <div>
@@ -70,20 +77,12 @@ export default function JobDetailsPage() {
                 <dd>{job.location}</dd>
               </div>
               <div>
-                <dt>Work mode</dt>
-                <dd>{WORK_MODE_LABELS[job.workMode] || job.workMode}</dd>
-              </div>
-              <div>
-                <dt>Job type</dt>
-                <dd>{JOB_TYPE_LABELS[job.jobType] || job.jobType}</dd>
-              </div>
-              <div>
                 <dt>Experience</dt>
                 <dd>{formatExperience(job.experience)}</dd>
               </div>
-              <div>
+              <div className="fact-wide">
                 <dt>Salary</dt>
-                <dd>{formatSalary(job.salary)}</dd>
+                <dd className="details-salary">{formatSalary(job.salary)}</dd>
               </div>
               <div>
                 <dt>Posted</dt>
@@ -137,9 +136,17 @@ export default function JobDetailsPage() {
         {company && (
           <aside className="card details-aside">
             <h2>About the company</h2>
-            {company.logo && <img src={company.logo} alt={`${company.name} logo`} className="company-logo" />}
-            <p className="company-name">{company.name}</p>
-            {company.location && <p className="muted">{company.location}</p>}
+            <div className="company-identity">
+              {company.logo ? (
+                <img src={company.logo} alt={`${company.name} logo`} className="company-logo" />
+              ) : (
+                <CompanyAvatar name={company.name} />
+              )}
+              <div>
+                <p className="company-name">{company.name}</p>
+                {company.location && <p className="muted small">{company.location}</p>}
+              </div>
+            </div>
             {company.description && <p className="prewrap">{company.description}</p>}
             {company.website && (
               <a href={company.website} target="_blank" rel="noopener noreferrer">

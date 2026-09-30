@@ -19,6 +19,9 @@ export default function Navbar() {
     <header className="navbar">
       <div className="container navbar-inner">
         <Link to="/jobs" className="brand" onClick={close}>
+          <span className="brand-mark" aria-hidden="true">
+            J
+          </span>
           JobPortal
         </Link>
 
