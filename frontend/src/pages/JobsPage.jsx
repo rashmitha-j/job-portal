@@ -9,6 +9,31 @@ import Pagination from '../components/Pagination'
 import { EmptyState, ErrorMessage, Loader } from '../components/StatusMessage'
 
 const PAGE_SIZE = 10
+// Largest page the API returns; used to count companies for the hero stats
+const STATS_SAMPLE_SIZE = 50
+
+// Unfiltered listing so the hero stats describe the whole board, not the current search
+const fetchStats = () =>
+  jobService.getJobs({ limit: STATS_SAMPLE_SIZE }).then(({ jobs, pagination }) => {
+    const companies = new Set(jobs.map((job) => job.company?._id).filter(Boolean)).size
+    return { openRoles: pagination.total, companies, partial: pagination.total > jobs.length }
+  })
+
+function HeroStats({ stats }) {
+  if (!stats) return null
+  const { openRoles, companies, partial } = stats
+  return (
+    <p className="hero-stats">
+      <strong>{openRoles}</strong> open role{openRoles === 1 ? '' : 's'}
+      <span className="hero-stats-dot" aria-hidden="true">·</span>
+      <strong>
+        {companies}
+        {partial ? '+' : ''}
+      </strong>{' '}
+      compan{companies === 1 && !partial ? 'y' : 'ies'} hiring
+    </p>
+  )
+}
 
 export default function JobsPage() {
   // Filters live in the URL so results are shareable and survive back/forward
@@ -30,6 +55,7 @@ export default function JobsPage() {
   }, [filters, page])
 
   const { data, loading, error, reload } = useFetch(fetchJobs)
+  const { data: stats } = useFetch(fetchStats)
 
   const applyFilters = (next) => {
     const params = new URLSearchParams()
@@ -51,15 +77,14 @@ export default function JobsPage() {
 
   return (
     <section>
-      <div className="page-header">
-        <div>
-          <h1>Find your next job</h1>
-          <p className="muted">Browse openings from companies hiring now.</p>
-        </div>
-      </div>
+      <div className="hero">
+        <h1 className="hero-title">Find your next job</h1>
+        <p className="hero-subtitle">Browse openings from companies hiring now.</p>
+        <HeroStats stats={stats} />
 
-      {/* Remount when applied filters change (e.g. back button) so inputs stay in sync */}
-      <JobFilters key={FILTER_KEYS.map((k) => filters[k]).join('|')} filters={filters} onApply={applyFilters} />
+        {/* Remount when applied filters change (e.g. back button) so inputs stay in sync */}
+        <JobFilters key={FILTER_KEYS.map((k) => filters[k]).join('|')} filters={filters} onApply={applyFilters} />
+      </div>
 
       {loading && <Loader label="Loading jobs…" />}
 

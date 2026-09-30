@@ -35,7 +35,10 @@ export default function LoginPage() {
   return (
     <section className="auth-page">
       <form className="card form" onSubmit={handleSubmit} noValidate>
-        <h1>Log in</h1>
+        <div className="auth-heading">
+          <h1>Welcome back</h1>
+          <p className="muted">Log in to apply, track applications or manage your job posts.</p>
+        </div>
         {error && (
           <div className="alert alert-error" role="alert">
             {error}

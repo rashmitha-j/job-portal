@@ -38,7 +38,10 @@ export default function RegisterPage() {
   return (
     <section className="auth-page">
       <form className="card form" onSubmit={handleSubmit} noValidate>
-        <h1>Create an account</h1>
+        <div className="auth-heading">
+          <h1>Create an account</h1>
+          <p className="muted">Find your next role or start hiring in minutes.</p>
+        </div>
         {error && (
           <div className="alert alert-error" role="alert">
             {error}
